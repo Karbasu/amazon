@@ -3,8 +3,10 @@ import "./Subtotal.css";
 // import CurrencyFormat from "react-currency-format";
 import { useStateValue } from "./StateProvider.js";
 import { getBasketTotal } from "./reducer.js";
+import { useHistory } from 'react-router-dom';
 
-function Subtotal() {
+function Subtotal() { 
+  const history = useHistory();
   const [{ basket }, dispatch] = useStateValue();
   console.log(dispatch);
   const formatPrice = getBasketTotal(basket).toLocaleString();
@@ -18,7 +20,7 @@ function Subtotal() {
             <input type="checkbox" />
             This order contains a gift
           </small>
-      <button>Proceed to checkout</button>
+      <button onClick={e => history.push('./payment') }>Proceed to checkout</button>
     </div>
   );
 }
