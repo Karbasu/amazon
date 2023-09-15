@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useStateValue } from "./StateProvider.js";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { getBasketTotal } from "./reducer.js";
+import { db } from "./firebase.js";
 
 function Payment() {
   const [{ basket, user }, dispatch] = useStateValue();
@@ -24,7 +25,7 @@ function Payment() {
       try {
         const response = await axios({
           method: "post",
-          url: `/payments/create?total=${getBasketTotal(basket)}`,
+          url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
         });
         setClientSecret(response.data.clientSecret);
       } catch (error) {
@@ -44,6 +45,15 @@ function Payment() {
       })
       .then(({ paymentIntent }) => {
         // paymentIntent = payment conformation
+        db.collection("users")
+          .doc(user?.uid)
+          .collection("orders")
+          .doc(paymentIntent.id)
+          .set({
+            basket: basket,
+            amount: paymentIntent.amount,
+            created: paymentIntent.created,
+          });
         setSucceeded(true);
         setError(null);
         setProcessing(false);
@@ -103,7 +113,10 @@ function Payment() {
               <div className="payment_priceContainer">
                 <h3>Order Total: ₹ {formatPrice}</h3>
               </div>
-              <button disabled={disabled || processing || succeeded}>
+              <button
+                className="buynow_button"
+                disabled={disabled || processing || succeeded}
+              >
                 <span>{processing ? <p>Processing</p> : "Buy now"}</span>
               </button>
             </form>

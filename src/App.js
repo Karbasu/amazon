@@ -42,7 +42,8 @@ function App() {
       <div className="App">
         <Switch>
           <Route path="/orders">
-              <Orders/>
+            <Header />
+            <Orders />
           </Route>
           <Route path="/payment">
             <Header />

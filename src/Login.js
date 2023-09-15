@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { Link , useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { auth } from "./firebase.js";
 function Login() {
   const history = useHistory();
@@ -9,9 +9,12 @@ function Login() {
   const signIn = (e) => {
     e.preventDefault();
     //fancy firbase login
-    auth.signInWithEmailAndPassword(email, password).then((auth) => {
-      history.push('/')
-    }).catch(error => alert(error.message));
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((auth) => {
+        history.push("/");
+      })
+      .catch((error) => alert(error.message));
   };
   const register = (e) => {
     e.preventDefault();
@@ -19,8 +22,8 @@ function Login() {
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((auth) => {
-        if(auth) {
-          history.push('/');
+        if (auth) {
+          history.push("/");
         }
       })
       .catch((error) => {
