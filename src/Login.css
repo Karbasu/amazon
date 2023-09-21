@@ -55,14 +55,21 @@
     height: 30px;
     border: 1px solid;
     margin-top: 10px;
+    border-radius: 10px;
     border-color: #a88734 #9c7e31 #846a29;
 }
-
+.login_siginButton:hover{
+    transform: scale(1.05);
+}
 .login_registerButton {
     border-radius: 2px;
     width: 100%;
     height: 30px;
     border: 1px solid;
     margin-top: 10px;
+    border-radius: 10px;
     border-color: darkgray;
+}
+.login_registerButton:hover{
+    transform: scale(1.05);
 }
